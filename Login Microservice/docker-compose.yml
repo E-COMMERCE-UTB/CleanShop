@@ -1,0 +1,24 @@
+version: "3.8.3"
+services:
+  login:
+    build: .
+    volumes:
+      - .:/django
+    ports:
+      - 8080:8080
+    image: login-service:django
+    container_name: django_container_login
+    command: python manage.py runserver 0.0.0.0:8080
+    depends_on:
+      - db
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    container_name: postgres_db_login
+
+

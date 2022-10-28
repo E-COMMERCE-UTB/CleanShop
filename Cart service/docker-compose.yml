@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  cart-service:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    image: cart-service:fastapi
+    container_name: fastapi_container_cart
+    command: uvicorn cart_service.app:app --host 0.0.0.0 --port 8000 --reload
+    depends_on:
+      - db
+  db:
+    image: mongo
+    volumes:
+      - ./data-mongodb:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: mydatabase
+      MONGO_INITDB_ROOT_USERNAME: david
+      MONGO_INITDB_ROOT_PASSWORD: TyuI1705$$
+    hostname: mongodb
+    container_name: mongo_db
+    ports:
+      - 27017:27017
+
+
